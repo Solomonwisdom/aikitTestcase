@@ -1,0 +1,39 @@
+apiVersion: kubeless.io/v1beta1
+kind: Function
+metadata:
+  name: service
+  namespace: kubeless
+  labels:
+    created-by: kubeless
+    function: service
+spec:
+  runtime: python3.6
+  timeout: "1800"
+  handler: service.handle
+  deps: | 
+    scikit-learn==0.21.2
+    matplotlib==3.1.1
+    Pillow==6.1.0
+    pykafka==2.8.0
+  # depes: "requirements.txt"
+  checksum: sha256:e1fb645cf4211e9151675d44a64673961b4311e50240b73c45ecb2e814160c42
+  function: http://114.212.189.141:31000/usernamehcx/service/raw/master/service.zip?raw=true
+  function-content-type: url+zip
+  deployment:
+    spec:
+      replicas: 1
+      template:
+        spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: nodeId
+                    operator: In
+                    values:
+                    - n133
+                    - n134
+                    - n141
+                    - n147
+                    - n144
