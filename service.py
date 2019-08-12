@@ -1013,7 +1013,7 @@ def handle(event, context):
     producer.stop()
 #    print("result\n")
 #    print(result)
-    return result_json
+    return bytes(result_json,encoding='utf-8')
 
 if __name__ == '__main__':
     # print("start point\n")
